@@ -5,7 +5,7 @@
 # Import necessary library(ies):
 from datetime import datetime
 from dotenv import load_dotenv
-import email_validator
+import email_validator  # Used in "contact us" webpage.
 from flask import Flask, render_template, request, redirect, url_for
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
