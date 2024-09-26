@@ -1,0 +1,107 @@
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/colors.jpg')">
+
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Top Colors in My Image</h1>
+          <span class="subheading">Results</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="col-lg-8 mx-auto p-4 py-md-5">
+  <main>
+    {% if success %}
+      <table style="width: 100%; margin-left:auto; margin-right:auto">
+        <colgroup>
+            <col span="1" style="width: 100%;">
+        </colgroup>
+        <tr>
+          <th style="font-size: 1rem; text-align:center">SUMMARY METRICS:</th>
+        </tr>
+      </table>
+      <table style="width: 100%; margin-left:auto; margin-right:auto">
+        <colgroup>
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 25%;">
+        </colgroup>
+        <tr>
+          <th style="font-size: 1rem">File Name</th>
+          <th style="font-size: 1rem">Image type (Mode)</th>
+          <th style="font-size: 1rem;text-align:center"># Pixels Processed</th>
+          <th style="font-size: 1rem;text-align:center"># Unique colors in image</th>
+        </tr>
+        <tr>
+          <td style="font-size: 1rem">{{ results["filename"] }}</td>
+          <td style="font-size: 1rem">{{ results["image_type"] }} ({{ results["pic_mode"] }})</td>
+          <td style="font-size: 1rem;text-align:center">{{ results["num_pixels_present"] }} of {{ results["num_pixels_processed"] }}</td>
+          <td style="font-size: 1rem;text-align:center">{{ results["unique_colors"] }}</td>
+        </tr>
+      </table>
+    <br>
+      <table style="width: 80%; margin-left:auto; margin-right:auto">
+        <colgroup>
+            <col span="1" style="width: 100%;">
+        </colgroup>
+        <tr>
+          <th style="font-size: 1rem; text-align:center">TOP COLORS IN IMAGE:</th>
+        </tr>
+      </table>
+      <table style="width: 80%; margin-left:auto; margin-right:auto">
+        <colgroup>
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 20%;">
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 0%;">
+            <col span="1" style="width: 15%;">
+            <col span="1" style="width: 15%;">
+        </colgroup>
+        <tr>
+          <th style="font-size: 1rem">(Red, Green, Blue)</th>
+          <th style="font-size: 1rem">Hex</th>
+          <th style="font-size: 1rem">Color</th>
+          <th style="font-size: 1rem"></th>
+          <th style="font-size: 1rem;text-align:right"># Pixels</th>
+          <th style="font-size: 1rem;text-align:right">% of Total</th>
+        </tr>
+
+        {% for i in range(0, num_top_colors): %}
+          <tr>
+            <td style="font-size: 1rem">{{ results["top_colors_keys"][i] }}</td>
+            <td style="font-size: 1rem">{{ results["top_colors_values"][i][2] }}</td>
+            <td style="font-size: 1rem;border:1px solid black;background-color:{{ results["top_colors_values"][i][2] }}"></td>
+            <td style="font-size: 1rem"></td>
+            <td style="font-size: 1rem;text-align:right">{{ results["top_colors_values"][i][0] }}</td>
+            <td style="font-size: 1rem;text-align:right">{{ results["top_colors_values"][i][1] }}%</td>
+          </tr>
+        {% endfor %}
+      </table>
+      <br>
+    {% else %}
+        <h3 style="text-align:center;color:red">{{results}}</h3>
+    {% endif %}
+    <h5>
+      <form>
+         <button style="display: block; margin: auto; background-color:red; color:white; font-weight:bold" type="submit" formaction="{{ url_for("home") }}">Return to Home Page</button>
+      </form>
+    </h5>
+  </main>
+
+  <footer class="pt-5 my-5 text-body-secondary border-top">
+    <p>{{ recognition_web_template }}</p>
+  </footer>
+</div>
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body></html>
+
+

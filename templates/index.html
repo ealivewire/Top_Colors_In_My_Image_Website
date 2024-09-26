@@ -1,0 +1,50 @@
+{% include "header.html" %}
+{% from 'bootstrap5/form.html' import render_form %} <!-- INTRODUCES BOOTSTRAP-FLASK TO THE MIX -->
+
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/colors.jpg')">
+
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Welcome to<br>Top Colors in My Image</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div style="text-align:center" class="col-lg-8 mx-auto p-4 py-md-5">
+  <main>
+      <h3 style="width: 80%; margin-left:auto; margin-right:auto">Here you will be able to select an image, and you will find out the most common colors in that image!</h3><br>
+      <br>
+      <table style="width: 100%; margin-left:auto; margin-right:auto">
+        <colgroup>
+            <col span="1" style="width: 33%;">
+            <col span="1" style="width: 33%;">
+            <col span="1" style="width: 33%;">
+        </colgroup>
+        <tr></tr>
+        <td style="width: 100%; margin-left:auto; margin-right:auto">
+         <form style="margin: 0 auto;" method="post" action="/results" enctype="multipart/form-data">
+            <input type="file" name="file" accept="{{ allowed_file_types }}">
+            <input type="submit" value="Analyze">
+         </form>
+        </td>
+      </table>
+<!--      <h5 style="display: block; margin: auto">-->
+
+<!--     </h5>-->
+  </main>
+
+  <footer class="pt-5 my-5 text-body-secondary border-top">
+    <p>{{ recognition_web_template }}</p>
+  </footer>
+</div>
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body></html>
+
+
