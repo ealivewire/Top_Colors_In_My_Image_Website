@@ -48,38 +48,41 @@ recognition_web_template = f"Website template created by the Bootstrap team Â· Â
 # Configure route for home page:
 @app.route('/',methods=["GET", "POST"])
 def home():
-    global app, dlg, ALLOWED_FILE_TYPES
+    global app, ALLOWED_FILE_TYPES
 
     try:
         # Go to the home page:
         return render_template("index.html", allowed_file_types=ALLOWED_FILE_TYPES, recognition_web_template=recognition_web_template)
 
     except:
-        dlg = wx.App()
-        dlg = wx.MessageBox(f"Error (route: '/'): {traceback.format_exc()}", 'Error', wx.OK | wx.ICON_INFORMATION)
+        # Log error into system log file:
         update_system_log("route: '/'", traceback.format_exc())
+
+        # Go to the web page which displays error details to the user:
+        return render_template("error.html", activity="route: '/'", details=traceback.format_exc())
 
 
 # Configure route for "About" web page:
 @app.route('/about')
 def about():
-    global app, dlg
+    global app
 
     try:
         # Go to the "About" page:
         return render_template("about.html", recognition_web_template=recognition_web_template)
 
     except:
-        dlg = wx.App()
-        dlg = wx.MessageBox(f"Error (route: '/about'): {traceback.format_exc()}", 'Error', wx.OK | wx.ICON_INFORMATION)
+        # Log error into system log file:
         update_system_log("route: '/about'", traceback.format_exc())
-        return redirect(url_for("home"))
+
+        # Go to the web page which displays error details to the user:
+        return render_template("error.html", activity="route: '/about'", details=traceback.format_exc())
 
 
 # Configure route for "Contact Us" web page:
 @app.route('/contact',methods=["GET", "POST"])
 def contact():
-    global app, dlg, ContactForm
+    global app, ContactForm
 
     try:
         # Instantiate an instance of the "ContactForm" class:
@@ -97,16 +100,17 @@ def contact():
         return render_template("contact.html", form=form, msg_status="<<Message Being Drafted.>>", recognition_web_template=recognition_web_template)
 
     except:  # An error has occurred.
-        dlg = wx.App()
-        dlg = wx.MessageBox(f"Error (route: '/contact'): {traceback.format_exc()}", 'Error', wx.OK | wx.ICON_INFORMATION)
+        # Log error into system log file:
         update_system_log("route: '/contact'", traceback.format_exc())
-        return redirect(url_for("home"))
+
+        # Go to the web page which displays error details to the user:
+        return render_template("error.html", activity="route: '/contact'", details=traceback.format_exc())
 
 
 # Configure route for page which displays image-processing results:
 @app.route('/results',methods=["GET", "POST"])
 def results():
-    global app, dlg
+    global app
 
     try:
         if request.method == 'POST':
@@ -130,11 +134,12 @@ def results():
             # Show web page with image-processing results:
             return render_template('results.html', results=proc_results, success=success, file=file, num_top_colors=num_top_colors,recognition_web_template=recognition_web_template)
 
-    except:
-        dlg = wx.App()
-        dlg = wx.MessageBox(f"Error (route: '/results'): {traceback.format_exc()}", 'Error', wx.OK | wx.ICON_INFORMATION)
+    except:  # An error has occurred.
+        # Log error into system log file:
         update_system_log("route: '/results'", traceback.format_exc())
-        return redirect(url_for("home"))
+
+        # Go to the web page which displays error details to the user:
+        return render_template("error.html", activity="route: '/results'", details=traceback.format_exc())
 
 
 # DEFINE FUNCTIONS TO BE USED FOR THIS APPLICATION (LISTED IN ALPHABETICAL ORDER BY FUNCTION NAME):
